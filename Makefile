@@ -6,11 +6,9 @@ cpu=arm926ej-s
 
 CC=$(cross)gcc
 LD=$(cross)ld
-AS=$(cross)as
 OC=$(cross)objcopy
 
 cflags=-mcpu=$(cpu) -I. -Wall
-aflags=-mcpu=$(cpu) -I. -Wall
 
 .PHONY: all
 all: test
@@ -18,8 +16,8 @@ all: test
 test.o: test.c
 	$(CC) $(cflags) -c -o test.o test.c
 
-startup.o: startup.s
-	$(AS) $(aflags) -c -o startup.o startup.s
+startup.o: startup.S
+	$(CC) $(cflags) -c -o startup.o startup.S
 
 test: test.o startup.o
 	$(LD) -T link.ld test.o startup.o -o test.elf
