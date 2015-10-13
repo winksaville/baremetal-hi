@@ -8,7 +8,7 @@ CC=$(cross)gcc
 LD=$(cross)ld
 OC=$(cross)objcopy
 
-cflags=-mcpu=$(cpu) -I. -Wall
+cflags=-mcpu=$(cpu) -I. -Wall -O2 -g
 
 .PHONY: all
 all: test
