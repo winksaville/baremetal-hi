@@ -1,0 +1,27 @@
+[binaries]
+c = '/home/wink/opt/cross/bin/arm-eabi-gcc'
+cpp = '/home/wink/opt/cross/bin/arm-eabi-g++'
+ar = '/home/wink/opt/cross/bin/arm-eabi-ar'
+strip = '/home/wink/opt/cross/bin/arm-eabi-strip'
+
+[properties]
+sizeof_int = 4
+sizeof_wchar_t = 4
+sizeof_void* = 4
+
+alignment_char = 1
+alignment_void* = 4
+alignment_double = 4
+
+has_function_printf = false
+
+[host_machine]
+system = 'qemu'
+cpu = 'arm'
+endian = 'little'
+
+[target_machine]
+system = 'qemu'
+cpu = 'arm'
+endian = 'little'
+
