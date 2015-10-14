@@ -27,7 +27,7 @@ cross-compilers and also add a gdb.
 Also, don't hesitate to provide pull requests or fork this project to
 do your own exploration.
 ___
-## To build using gnu make
+## To build using [GNU Make](https://www.gnu.org/software/make/):
 Currently his has a hard coded path [issue #1]](https://github.com/winksaville/baremetal-hi/issues/1) so they'll need to be adjusted manually.
 ```
 make
@@ -48,7 +48,7 @@ qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
 ```
 Again, to exit from QEMU type (ctrl-a) then the letter 'x'
 ___
-## To use meson:
+## To use [Meson](https://mesonbuild.com):
 **NOT WORKING** [issue #2](https://github.com/winksaville/baremetal-hi/issues/2)
 ```
 mkdir build-meson
@@ -56,6 +56,6 @@ cd build-meson
 meson --cross-file ../arm-eabi-cross_file.txt ..
 ```
 ___
-## To use Craftr:
+## To use [Craftr](https://github.com/craftr-build/craftr):
 **TODO** [issue #3](https://github.com/winksaville/baremetal-hi/issues/3)
 ___
