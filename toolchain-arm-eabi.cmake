@@ -14,7 +14,7 @@ set( CMAKE_SYSTEM_PROCESSOR     ARM )
 
 # Set a toolchain path. You only need to set this if the toolchain isn't in
 # your system path. Don't forget a trailing path separator!
-set( TC_PATH "/home/wink/opt/cross/bin/" )
+set( TC_PATH "" )
 
 # The toolchain prefix for all toolchain executables
 set( CROSS_COMPILE arm-eabi- )
