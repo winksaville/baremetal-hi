@@ -1,0 +1,1 @@
+option('Platform', description : 'Platform target', type : 'combo', value : 'Posix', choices : ['Posix', 'Qemu_ARM_VersatilePB'])

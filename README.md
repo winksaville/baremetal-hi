@@ -49,11 +49,23 @@ qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
 Again, to exit from QEMU type (ctrl-a) then the letter 'x'
 ___
 ## To use [Meson](https://mesonbuild.com):
-**NOT WORKING** [issue #2](https://github.com/winksaville/baremetal-hi/issues/2)
+Two platforms Posix and Qemu_ARM_VersatilePB
+
+For Posix:
 ```
-mkdir build-meson
-cd build-meson
-meson --cross-file ../arm-eabi-cross_file.txt ..
+mkdir build-meson-posix
+cd build-meson-posix
+meson -D Platform=Posix ..
+ninja
+./testit
+```
+For Qemu_ARM_VersatitlePB
+```
+mkdir build-meson-versatitlepb
+cd build-meson-versatitlepb
+meson -D Platform=Qemu_ARM_VersatilePB --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
+ninja
+qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
 ```
 ___
 ## To use [Craftr](https://github.com/craftr-build/craftr):

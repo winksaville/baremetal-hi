@@ -2,6 +2,7 @@
 c = '/home/wink/opt/cross/bin/arm-eabi-gcc'
 cpp = '/home/wink/opt/cross/bin/arm-eabi-g++'
 ar = '/home/wink/opt/cross/bin/arm-eabi-ar'
+ld = '/home/wink/opt/cross/bin/arm-eabi-ld'
 strip = '/home/wink/opt/cross/bin/arm-eabi-strip'
 
 [properties]
