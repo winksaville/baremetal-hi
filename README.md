@@ -50,8 +50,15 @@ Again, to exit from QEMU type (ctrl-a) then the letter 'x'
 ___
 ## To use [Meson](https://mesonbuild.com):
 Two platforms Posix and Qemu_ARM_VersatilePB
+(Note: The following two changes need to be
+applied to meson before this code works:
+```
+https://github.com/mesonbuild/meson/pull/283
+https://github.com/mesonbuild/meson/pull/282
+```
 
-For Posix:
+
+To build and run Posix platform:
 ```
 mkdir build-meson-posix
 cd build-meson-posix
@@ -59,7 +66,7 @@ meson -D Platform=Posix ..
 ninja
 ./testit
 ```
-For Qemu_ARM_VersatitlePB
+To build and run for Qemu_ARM_VersatitlePB platform:
 ```
 mkdir build-meson-versatitlepb
 cd build-meson-versatitlepb
