@@ -14,13 +14,13 @@ cflags=-mcpu=$(cpu) -I. -Wall -O2 -g
 all: test.bin
 
 test.o: test.c
-	$(CC) $(cflags) -c -o test.o test.c
+	$(CC) $(cflags) -c -DQemu_ARM_VersatilePB -o test.o test.c
 
 startup.o: startup.S
 	$(CC) $(cflags) -c -o startup.o startup.S
 
 test.bin: test.o startup.o
-	$(LD) -T link.ld test.o startup.o -o test.elf
+	$(LD) -T link.make.ld test.o startup.o -o test.elf
 	$(OC) -O binary test.elf test.bin
 
 .PHONY: run

@@ -12,9 +12,9 @@ meta-build system which generates [Ninja](https://martine.github.io/ninja/) code
 is the best approach, but we'll see how it goes.
 
 Currently the set of build systems I'm interested in are:
-* [GNU Make](https://www.gnu.org/software/make/) (done)
-* [CMake](https://cmake.org) (partially done)
-* [Meson](https://mesonbuild.com) (Not workng)
+* [GNU Make](https://www.gnu.org/software/make/) (working)
+* [CMake](https://cmake.org) (working)
+* [Meson](https://mesonbuild.com) (working with 'fixed meson')
 * [Craftr](https://github.com/craftr-build/craftr) (TODO)
 
 There are some prerequisites:
@@ -27,8 +27,7 @@ cross-compilers and also add a gdb.
 Also, don't hesitate to provide pull requests or fork this project to
 do your own exploration.
 ___
-## To build using [GNU Make](https://www.gnu.org/software/make/):
-Currently his has a hard coded path [issue #1]](https://github.com/winksaville/baremetal-hi/issues/1) so they'll need to be adjusted manually.
+## To use [GNU Make](https://www.gnu.org/software/make/):
 ```
 make
 ```
@@ -38,26 +37,34 @@ make run
 ```
 To exit from QEMU type (ctrl-a) then the letter 'x'
 ___
-## To build using [CMake](https://cmake.org/), which is patterned after [this](http://www.valvers.com/open-software/raspberry-pi/step03-bare-metal-programming-in-c-pt3/):
+## To use [CMake](https://cmake.org/), based on [this](http://www.valvers.com/open-software/raspberry-pi/step03-bare-metal-programming-in-c-pt3/):
 ```
-mkdir build-make
-cd build-make
+mkdir build-cmake-ninja
+cd build-cmake-ninja
 cmake -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
 ninja
 qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
 ```
 Again, to exit from QEMU type (ctrl-a) then the letter 'x'
+
+For unix Makefile you can use the run target which doesn't work for ninja
+```
+mkdir build-cmake-make
+cd build-cmake-make
+cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
+make
+make run
+```
 ___
 ## To use [Meson](https://mesonbuild.com):
-Two platforms Posix and Qemu_ARM_VersatilePB
-(Note: The following two changes need to be
+Meson support two platforms Posix and Qemu_ARM_VersatilePB
+
+Note: The following two changes need to be
 applied to meson before this code works:
 ```
 https://github.com/mesonbuild/meson/pull/283
 https://github.com/mesonbuild/meson/pull/282
 ```
-
-
 To build and run Posix platform:
 ```
 mkdir build-meson-posix
