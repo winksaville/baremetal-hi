@@ -2,7 +2,7 @@ ENTRY(_Reset)
 SECTIONS
 {
   . = 0x10000;
-  .startup  . : { testit-exe/startup.S.o(.text) }
+  .startup  . : { testit*exe/startup.S.o(.text) }
   .text : { *(.text) }
   .data : { *(.data) }
   .bss : { *(.bss COMMON) }

@@ -6,15 +6,10 @@ ld = '/home/wink/opt/cross/bin/arm-eabi-ld'
 strip = '/home/wink/opt/cross/bin/arm-eabi-strip'
 
 [properties]
-sizeof_int = 4
-sizeof_wchar_t = 4
-sizeof_void* = 4
-
-alignment_char = 1
-alignment_void* = 4
-alignment_double = 4
 
 has_function_printf = false
+
+c_link_args = ['-nostdlib']
 
 [host_machine]
 system = 'qemu'
