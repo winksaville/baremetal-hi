@@ -14,10 +14,12 @@ c_link_args = ['-nostdlib']
 [host_machine]
 system = 'qemu'
 cpu = 'arm'
+cpu_family = 'arm'
 endian = 'little'
 
 [target_machine]
 system = 'qemu'
 cpu = 'arm'
+cpu_family = 'arm'
 endian = 'little'
 
