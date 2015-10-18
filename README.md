@@ -59,11 +59,6 @@ ___
 ## To use [Meson](https://mesonbuild.com):
 Meson support two platforms Posix and Qemu_ARM_VersatilePB
 
-Note: The following two changes need to be
-applied to meson before this code works:
-```
-https://github.com/mesonbuild/meson/pull/283
-https://github.com/mesonbuild/meson/pull/282
 ```
 To build and run Posix platform:
 ```
@@ -71,7 +66,7 @@ mkdir build-meson-posix
 cd build-meson-posix
 meson -D Platform=Posix ..
 ninja
-./testit
+ninja run
 ```
 To build and run for Qemu_ARM_VersatitlePB platform:
 ```
@@ -79,7 +74,7 @@ mkdir build-meson-versatitlepb
 cd build-meson-versatitlepb
 meson -D Platform=Qemu_ARM_VersatilePB --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
 ninja
-qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
+ninja run
 ```
 ___
 ## To use [Craftr](https://github.com/craftr-build/craftr):
