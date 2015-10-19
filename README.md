@@ -70,8 +70,8 @@ ninja run
 ```
 To build and run for BmArm platform:
 ```
-mkdir build-meson-versatitlepb
-cd build-meson-versatitlepb
+mkdir build-meson-bmarm
+cd build-meson-bmarm
 meson -D Platform=BmArm --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
 ninja
 ninja run
