@@ -59,7 +59,7 @@ ___
 ## To use [Meson](https://mesonbuild.com):
 The build.meson file supports two platforms, Posix and BmArm.
 The BmArm causes test.c to assume a Qemu VersatilePB platform.
-```
+
 To build and run Posix platform:
 ```
 mkdir build-meson-posix
