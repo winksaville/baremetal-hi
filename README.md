@@ -43,7 +43,7 @@ mkdir build-cmake-ninja
 cd build-cmake-ninja
 cmake -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
 ninja
-qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
+ninja run
 ```
 Again, to exit from QEMU type (ctrl-a) then the letter 'x'
 
@@ -57,8 +57,8 @@ make run
 ```
 ___
 ## To use [Meson](https://mesonbuild.com):
-Meson support two platforms Posix and Qemu_ARM_VersatilePB
-
+The build.meson file supports two platforms, Posix and BmArm.
+The BmArm causes test.c to assume a Qemu VersatilePB platform.
 ```
 To build and run Posix platform:
 ```
@@ -68,11 +68,11 @@ meson -D Platform=Posix ..
 ninja
 ninja run
 ```
-To build and run for Qemu_ARM_VersatitlePB platform:
+To build and run for BmArm platform:
 ```
 mkdir build-meson-versatitlepb
 cd build-meson-versatitlepb
-meson -D Platform=Qemu_ARM_VersatilePB --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
+meson -D Platform=BmArm --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
 ninja
 ninja run
 ```
