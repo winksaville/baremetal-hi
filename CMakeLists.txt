@@ -36,4 +36,5 @@ add_custom_command(
 # Run test.bin
 add_custom_target(run
   COMMAND qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
-  DEPENDS TestExe)
+  DEPENDS TestExe
+  USES_TERMINAL)
