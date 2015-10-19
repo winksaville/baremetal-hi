@@ -21,8 +21,8 @@ if Platform == 'Posix'
   srcs = ['test.c']
 endif
 
-if Platform == 'Qemu_ARM_VersatilePB'
-  compilerArgs += ['-DQemu_ARM_VersatilePB', '-mcpu=arm926ej-s']
+if Platform == 'BmArm'
+  compilerArgs += ['-DBmArm', '-mcpu=arm926ej-s']
   linkfile = 'link.meson.ld'
   linkArgs = ['-Wl,-T,@0@/@1@'.format(meson.current_source_dir(), linkfile)]
   linkDeps = [linkfile]
@@ -32,7 +32,7 @@ endif
 # Create the executable
 testit = executable( 'testit', srcs, c_args : compilerArgs, link_args : linkArgs, link_depends : linkDeps)
 
-if Platform == 'Qemu_ARM_VersatilePB'
+if Platform == 'BmArm'
   testbin = custom_target( 'testbin',
     output : ['test.bin'],
     command : ['arm-eabi-objcopy', '-O', 'binary', 'testit', 'test.bin'],

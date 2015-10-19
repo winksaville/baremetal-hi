@@ -1,10 +1,11 @@
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 
-//#define Qemu_ARM_VersatilePB
+//#define BmArm
 //#define POSIX
 
-#ifdef Qemu_ARM_VersatilePB
+#ifdef BmArm
+// Assume a VersatilePB
 volatile uint32_t* const pUart = (uint32_t*)0x101f1000;
 #endif
 
@@ -13,7 +14,7 @@ extern int putchar(int ch);
 #endif
 
 void putchar_dbg(uint8_t ch) {
-#ifdef Qemu_ARM_VersatilePB
+#ifdef BmArm
   *pUart = (uint32_t)ch;
 #endif
 #ifdef Posix

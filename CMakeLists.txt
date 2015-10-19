@@ -6,7 +6,7 @@ cmake_minimum_required( VERSION 2.8 )
 project(baremetal-hi C ASM )
 
 # Add our cflags
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -nostartfiles -DQemu_ARM_VersatilePB" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -nostartfiles -DBmArm" )
 
 # The directory where the objects are stored
 set( OBJ_DIR "${CMAKE_BINARY_DIR}/CMakeFiles/TestExe.dir" )

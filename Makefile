@@ -14,7 +14,7 @@ cflags=-mcpu=$(cpu) -I. -Wall -O2 -g
 all: test.bin
 
 test.o: test.c
-	$(CC) $(cflags) -c -DQemu_ARM_VersatilePB -o test.o test.c
+	$(CC) $(cflags) -c -DBmArm -o test.o test.c
 
 startup.o: startup.S
 	$(CC) $(cflags) -c -o startup.o startup.S
