@@ -1,8 +1,11 @@
+
 ENTRY(_Reset)
 SECTIONS
 {
   . = 0x10000;
-  .startup  . : { testit*exe/startup.S.o(.text) }
+  /* TODO: fix meson naming scheme so there its something other
+   * than testit@exe as the linker script doesn't like '@' */
+  .startup  . : { testit?exe/startup.S.o(.text) }
   .text : { *(.text) }
   .data : { *(.data) }
   .bss : { *(.bss COMMON) }
