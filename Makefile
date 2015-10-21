@@ -17,7 +17,7 @@ test.o: test.c
 	$(CC) $(cflags) -c -DBmArm -o test.o test.c
 
 startup.o: startup.S
-	$(CC) $(cflags) -c -o startup.o startup.S
+	$(CC) $(cflags) -DRESET_ON_MAIN_COMPLETE -c -o startup.o startup.S
 
 test.bin: test.o startup.o
 	$(LD) -T link.make.ld test.o startup.o -o test.elf
@@ -25,7 +25,8 @@ test.bin: test.o startup.o
 
 .PHONY: run
 run: test.bin
-	qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
+	# -no-reboot allows a reset to exit qemu
+	qemu-system-arm -M versatilepb -m 128M -nographic -no-reboot -kernel test.bin
   
 .PHONY: clean
 clean:

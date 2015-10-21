@@ -14,7 +14,7 @@ testObject = c.objects(
 startupObject = c.objects(
   prog = 'arm-eabi-gcc',
   sources = ['../startup.S'],
-  defines = ['BmArm'],
+  defines = ['RESET_ON_MAIN_COMPLETE', 'BmArm'],
   additional_flags = ['-mcpu=arm926ej-s']
 )
 
@@ -36,5 +36,5 @@ run = c.run_target(
   prog = 'qemu-system-arm',
   runname = 'run',
   input = testbin,
-  additional_flags = ['-M', 'versatilepb', '-m', '128M', '-nographic', '-kernel']
+  additional_flags = ['-M', 'versatilepb', '-m', '128M', '-nographic', '-no-reboot', '-kernel']
 )

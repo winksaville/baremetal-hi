@@ -78,5 +78,11 @@ ninja run
 ```
 ___
 ## To use [Craftr](https://github.com/craftr-build/craftr):
-**TODO** [issue #3](https://github.com/winksaville/baremetal-hi/issues/3)
-___
+I've hacked craftr and [my version](https://github.com/winksaville/craftr/tree/add-prog-obj_copy-run_target)
+must be used.
+```
+mkdir build-craftr
+cd build-craftr
+craftr -c .. export
+ninja
+```

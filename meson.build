@@ -22,7 +22,7 @@ if Platform == 'Posix'
 endif
 
 if Platform == 'BmArm'
-  compilerArgs += ['-DBmArm', '-mcpu=arm926ej-s']
+  compilerArgs += ['-DRESET_ON_MAIN_COMPLETE', '-DBmArm', '-mcpu=arm926ej-s']
   linkfile = 'link.meson.ld'
   linkArgs = ['-Wl,-T,@0@/@1@'.format(meson.current_source_dir(), linkfile)]
   linkDeps = [linkfile]
@@ -38,7 +38,7 @@ if Platform == 'BmArm'
     command : ['arm-eabi-objcopy', '-O', 'binary', 'testit', 'test.bin'],
     depends : [testit])
 
-  run_target('run', 'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-nographic', '-kernel', testbin)
+  run_target('run', 'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-nographic', '-no-reboot', '-kernel', testbin)
 else
   run_target('run', testit)
 endif

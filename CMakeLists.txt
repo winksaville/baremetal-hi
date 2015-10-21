@@ -5,14 +5,15 @@ cmake_minimum_required( VERSION 2.8 )
 # cross-compiler's ability to compile a simple program because that will fail
 project(baremetal-hi C ASM )
 
-# Add our cflags
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -nostartfiles -DBmArm" )
+# Add our cflags and asmflags
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g -nostartfiles -DRESET_ON_MAIN_COMPLETE -DBmArm" )
+set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" )
 
 # The directory where the objects are stored
 set( OBJ_DIR "${CMAKE_BINARY_DIR}/CMakeFiles/TestExe.dir" )
 
-# The link executable variable must be complete its and
-# as far as I can tell this is the best way within CMake
+# The link executable variable must be the full command line
+# and as far as I can tell this is the best way within CMake
 # to be able to control the linker. Otherwise the code CMake
 # generates doesn't work for bare metal applications.
 set( CMAKE_C_LINK_EXECUTABLE "${CMAKE_LINKER} -nostdlib -T ${CMAKE_SOURCE_DIR}/link.cmake.ld -L ${CMAKE_BINARY_DIR} -l mycrt0 ${OBJ_DIR}/test.c.obj -o TestExe")
@@ -35,6 +36,6 @@ add_custom_command(
 
 # Run test.bin
 add_custom_target(run
-  COMMAND qemu-system-arm -M versatilepb -m 128M --nographic --kernel test.bin
+  COMMAND qemu-system-arm -M versatilepb -m 128M --nographic -no-reboot --kernel test.bin
   DEPENDS TestExe
   USES_TERMINAL)
