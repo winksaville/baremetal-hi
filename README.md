@@ -13,9 +13,10 @@ is the best approach, but we'll see how it goes.
 
 Currently the set of build systems I'm interested in are:
 * [GNU Make](https://www.gnu.org/software/make/) (working)
+* [kati](https://github.com/google/kati) (working)
 * [CMake](https://cmake.org) (working)
-* [Meson](https://mesonbuild.com) (working with 'fixed meson')
-* [Craftr](https://github.com/craftr-build/craftr) (TODO)
+* [Meson](https://mesonbuild.com) (working)
+* [Craftr](https://github.com/craftr-build/craftr) (working with fixed craftr)
 
 There are some prerequisites:
 * An arm-eabi cross compiler. (For now see [here](https://github.com/winksaville/sortie-dopsys-myos)
@@ -29,13 +30,30 @@ do your own exploration.
 ___
 ## To use [GNU Make](https://www.gnu.org/software/make/):
 ```
+mkdir build-makefile
+cd build-makefile
 make
 ```
 To run using QEMU:
 ```
 make run
 ```
-To exit from QEMU type (ctrl-a) then the letter 'x'
+___
+## To use [kati](https://github.com/google/kati)
+Kati is interesting in that it uses GNU Makefiles as its
+input source and internally generates ninja code.
+```
+mkdir build-kati
+cd build-kati
+kati -f ../Makefile
+kati -f ../Makefile run
+```
+To have kati generate build.ninja and use ninja:
+```
+kati --ninja -f ../Makefile
+ninja
+ninja run
+```
 ___
 ## To use [CMake](https://cmake.org/), based on [this](http://www.valvers.com/open-software/raspberry-pi/step03-bare-metal-programming-in-c-pt3/):
 ```
@@ -45,8 +63,6 @@ cmake -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
 ninja
 ninja run
 ```
-Again, to exit from QEMU type (ctrl-a) then the letter 'x'
-
 For unix Makefile you can use the run target which doesn't work for ninja
 ```
 mkdir build-cmake-make

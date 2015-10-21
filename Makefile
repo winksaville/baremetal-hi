@@ -1,6 +1,9 @@
 # Delete implict rules
 .SUFFIXES:
 
+# Determine the directory where this Makefile is located
+MFD = $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 cross=arm-eabi-
 cpu=arm926ej-s
 
@@ -13,14 +16,14 @@ cflags=-mcpu=$(cpu) -I. -Wall -O2 -g
 .PHONY: all
 all: test.bin
 
-test.o: test.c
-	$(CC) $(cflags) -c -DBmArm -o test.o test.c
+test.o: $(MFD)/test.c
+	$(CC) $(cflags) -c -DBmArm -o $@ $^
 
-startup.o: startup.S
-	$(CC) $(cflags) -DRESET_ON_MAIN_COMPLETE -c -o startup.o startup.S
+startup.o: $(MFD)/startup.S
+	$(CC) $(cflags) -DRESET_ON_MAIN_COMPLETE -c -o $@ $^
 
-test.bin: test.o startup.o
-	$(LD) -T link.make.ld test.o startup.o -o test.elf
+test.bin: test.o startup.o $(MFD)/link.make.ld
+	$(LD) -T $(MFD)/link.make.ld test.o startup.o -o test.elf
 	$(OC) -O binary test.elf test.bin
 
 .PHONY: run
