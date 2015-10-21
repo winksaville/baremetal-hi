@@ -1,0 +1,40 @@
+# craftr_module(baremetal_hi)
+load_module('compiler')
+load_module('platform')
+
+c = compiler.CCompiler()
+
+testObject = c.objects(
+  prog = 'arm-eabi-gcc',
+  sources = ['../test.c'],
+  defines = ['BmArm'],
+  additional_flags = ['-mcpu=arm926ej-s']
+)
+
+startupObject = c.objects(
+  prog = 'arm-eabi-gcc',
+  sources = ['../startup.S'],
+  defines = ['BmArm'],
+  additional_flags = ['-mcpu=arm926ej-s']
+)
+
+testelf = c.executable(
+  prog = 'arm-eabi-ld',
+  filename = 'test.elf',
+  inputs = [startupObject, testObject],
+  additional_flags = ['-T', '../link.craftr.ld']
+)
+
+testbin = c.obj_copy(
+  prog = 'arm-eabi-objcopy',
+  filename = 'test.bin',
+  input = testelf,
+  additional_flags = ['-O', 'binary']
+)
+
+run = c.run_target(
+  prog = 'qemu-system-arm',
+  runname = 'run',
+  input = testbin,
+  additional_flags = ['-M', 'versatilepb', '-m', '128M', '-nographic', '-kernel']
+)
