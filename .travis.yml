@@ -6,7 +6,7 @@ addons:
       - re2c
 
 install:
-  - CURDIR = $(pwd)
+  - DIR=`pwd`
   - if [ ! -d "~/foss/ninja" ]: then
   -   mkdir ~/foss/ninja
   -   git clone https://github.com/martine/ninja.git ~/foss/ninja
@@ -14,7 +14,7 @@ install:
   -   ./configure.py --bootstrap
     fi
   - export PATH=$(pwd):$PATH
-  - cd $CURDIR
+  - cd $DIR
 
 cache:
   directories:
