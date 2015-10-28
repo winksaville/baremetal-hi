@@ -1,17 +1,13 @@
 language: c, python3
 install:
-  - pwd
+  - apt-get install re2c
   - git clone https://github.com/martine/ninja.git
   - cd ninja
-  - pwd
   - ./configure.py --bootstrap
   - export PATH=$(pwd):$PATH
   - cd ..
 
 script:
-  - pwd
-  - echo $PATH
-  - which ninja
   - ninja --version
   - make Posix
   - make run-posix
