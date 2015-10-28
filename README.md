@@ -1,5 +1,7 @@
 # Bare Metal Hi
 
+[![Build Status](https://travis-ci.org/winksaville/baremetal-hi.svg)](https://travis-ci.org/winksaville/baremetal-hi)
+
 A trivial bare metal test app that prints "Hi" to the Uart on the qemu Virtual
 Development board for ARM. The resulting runnable output is "test.bin" and can
 be tested by running with qemu-system-arm:
