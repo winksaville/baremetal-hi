@@ -5,7 +5,7 @@ install:
   - cd ninja
   - pwd
   - ./configure.py --bootstrap
-  - export PATH=$(pwd)/ninja:$PATH
+  - export PATH=$(pwd):$PATH
   - cd ..
 
 script:
