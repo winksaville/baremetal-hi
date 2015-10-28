@@ -2,11 +2,11 @@ language: c, python3
 install:
   - pwd
   - git clone https://github.com/martine/ninja.git
-  - pwd
   - cd ninja
+  - pwd
   - ./configure.py --bootstrap
   - export PATH=$(pwd)/ninja:$PATH
-  - cd
+  - cd ..
 
 script:
   - pwd
