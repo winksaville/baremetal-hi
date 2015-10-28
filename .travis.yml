@@ -1,12 +1,16 @@
 language: c, python3
 install:
+  - pwd
   - git clone https://github.com/martine/ninja.git
+  - pwd
   - cd ninja
   - ./configure.py --bootstrap
   - export PATH=$(pwd)/ninja:$PATH
+  - cd
 
 script:
-  - export $PATH
+  - pwd
+  - echo $PATH
   - which ninja
   - ninja --version
   - make Posix
