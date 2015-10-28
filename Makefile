@@ -47,8 +47,12 @@ test.bin: test.BmArm.o startup.o $(MFD)/link.make.ld
 	$(LD) -T $(MFD)/link.make.ld test.$(Platform).o startup.o -o test.elf
 	$(OC) -O binary test.elf test.bin
 
-.PHONY: run
-run: BmArm
+.PHONY: run-posix
+run-posix: Posix
+	./test
+
+.PHONY: run-bmarm
+run-bmarm: BmArm
 	# -no-reboot allows a reset to exit qemu
 	qemu-system-arm -M versatilepb -m 128M -nographic -no-reboot -kernel test.bin
   
