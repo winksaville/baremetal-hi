@@ -12,6 +12,10 @@ install:
   - export PATH=$(pwd):$PATH
   - cd ..
 
+cache:
+  directories:
+    - ninja
+
 script:
   - ninja --version
   - make Posix
