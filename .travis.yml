@@ -7,7 +7,7 @@ addons:
 
 install:
   - export FOSS_DIR=~/foss
-  - DIR=$(FOSS_DIR)/ninja
+  - DIR="$(FOSS_DIR)/ninja"
   - tools/install-ninja $(DIR)
   - export PATH=$(DIR):$PATH
 
