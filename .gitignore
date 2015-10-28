@@ -3,3 +3,4 @@
 *.elf
 *.swp
 build*/
+test
