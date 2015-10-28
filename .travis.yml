@@ -5,17 +5,15 @@ addons:
     packages:
       - re2c
 
-before_install:
-  - export FOSS_DIR=~/foss
-
 install:
+  - export FOSS_DIR=~/foss
   - DIR=$(FOSS_DIR)/ninja
   - tools/install-ninja $(DIR)
   - export PATH=$(DIR):$PATH
 
 cache:
   directories:
-    - $(FOSS_DIR)
+    - ~/foss
 
 script:
   - ninja --version
