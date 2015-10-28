@@ -5,20 +5,17 @@ addons:
     packages:
       - re2c
 
+before_install:
+  - export FOSS_DIR=~/foss
+
 install:
-  - DIR=`pwd`
-  - if [ ! -d "~/foss/ninja" ]: then
-  -   mkdir ~/foss/ninja
-  -   git clone https://github.com/martine/ninja.git ~/foss/ninja
-  -   cd ~/foss/ninja
-  -   ./configure.py --bootstrap
-    fi
-  - export PATH=$(pwd):$PATH
-  - cd $DIR
+  - DIR=$(FOSS_DIR)/ninja
+  - tools/install-ninja $(DIR)
+  - export PATH=$(DIR):$PATH
 
 cache:
   directories:
-    - ~/foss
+    - $(FOSS_DIR)
 
 script:
   - ninja --version

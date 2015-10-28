@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ ! -d "$1" ]; then
+  mkdir -p $1
+  git clone https://github.com/martine/ninja.git $1
+  cd $1
+  ./configure.py --bootstrap
+fi
