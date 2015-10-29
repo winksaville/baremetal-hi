@@ -1,5 +1,5 @@
 language: c, python
-sudo: required
+#sudo: required
 
 python:
   - "2.7"
