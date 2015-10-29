@@ -36,7 +36,7 @@ cache:
     - ${FOSS_DIR}
 
 script:
-  - qemu --version
+  - qemu -version
     #- qemu-system-arm --version
   - ninja --version
   - make ${Platform}
