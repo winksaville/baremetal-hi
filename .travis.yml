@@ -10,12 +10,15 @@ env:
   matrix:
     - Platform=Posix
 
+cache:
+  directories:
+    - ${FOSS_DIR}
+
 addons:
   apt:
     packages:
       - re2c # Needed by ninja
-        #- qemu
-        #- qemu-system-arm
+        #- qemu-system-arm  # Doesn't install!!
 
 before_install:
   - python --version
@@ -31,13 +34,9 @@ install:
   - tools/install-qemu ${DIR}
   - export PATH=${DIR}/build/arm-softmmu:$PATH
 
-after_install:
+before_script:
   - ninja --version
   - qemu-system-arm --version
-
-cache:
-  directories:
-    - ${FOSS_DIR}
 
 script:
   - make ${Platform}
