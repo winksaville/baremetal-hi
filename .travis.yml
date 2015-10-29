@@ -16,18 +16,18 @@ addons:
     packages:
       - re2c
       - python3
+      - virtualenv
         #- python3-venv
-        #- virtualenv
         #- qemu
         #- qemu-system-arm
         #- dtc
 
 before_install:
   #- sudo pip install virtualenv
-  - virtualenv --version
   - python --version
   - python2 --version
-  #- python3 --version
+  - python3 --version
+  - virtualenv --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
