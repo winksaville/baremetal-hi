@@ -31,13 +31,14 @@ install:
   - tools/install-qemu ${DIR}
   - export PATH=${DIR}/build/arm-softmmu:$PATH
 
+after_install:
+  - ninja --version
+  - qemu-system-arm --version
+
 cache:
   directories:
     - ${FOSS_DIR}
 
 script:
-  #- qemu -version
-  #- qemu-system-arm --version
-  - ninja --version
   - make ${Platform}
   - make run-${Platform}

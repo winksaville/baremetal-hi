@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-set -ex
-VER=v2.4.0.1
-if [ ! -d "$1" ]; then
+#set -x
+set -e
+
+VER=2.4.0.1
+
+# Test if we've got the desired version
+if [[ `$1/build/arm-softmmu/qemu-system-arm -version` == *"${VER}"* ]]; then
+  echo "qemu-system-arm ${VER} is available";
+else
   mkdir -p $1
   git clone git://git.qemu.org/qemu.git $1
   cd $1
-  git checkout ${VER}
+  git checkout v${VER}
   git submodule update --init dtc
   mkdir build
   cd build
