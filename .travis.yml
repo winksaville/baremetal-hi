@@ -16,8 +16,6 @@ before_install:
   - sudo pip install virtualenv
   - virtualenv --version
   - python --version
-  - python3 --version
-  - python2 --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
