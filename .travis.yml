@@ -27,9 +27,9 @@ install:
   - DIR="${FOSS_DIR}/ninja"
   - tools/install-ninja ${DIR}
   - export PATH=${DIR}:$PATH
-  #- DIR="${FOSS_DIR}/qemu"
-  #- tools/install-qemu ${DIR}
-  #- export PATH=${DIR}/build/arm-softmmu:$PATH
+  - DIR="${FOSS_DIR}/qemu"
+  - tools/install-qemu ${DIR}
+  - export PATH=${DIR}/build/arm-softmmu:$PATH
 
 cache:
   directories:

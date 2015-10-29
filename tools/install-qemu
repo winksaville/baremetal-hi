@@ -6,6 +6,7 @@ if [ ! -d "$1" ]; then
   git clone git://git.qemu.org/qemu.git $1
   cd $1
   git checkout ${VER}
+  git submodule update --init dtc
   mkdir build
   cd build
   virtualenv --python=python2.7 venv
