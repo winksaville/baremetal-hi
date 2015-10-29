@@ -8,7 +8,7 @@ if [ ! -d "$1" ]; then
   git checkout ${VER}
   mkdir build
   cd build
-  virtualenv2 venv
+  virtualenv --python=python2.7
   . venv/bin/activate
   ../configure --target-list=arm-softmmu,arm-linux-user
   make

@@ -1,4 +1,4 @@
-language: c, python3
+language: c, python3, python2
 
 env:
   global:
@@ -10,8 +10,14 @@ addons:
   apt:
     packages:
       - re2c
-      - virtualenv
-      - virtualenv2
+      - pip
+
+before_install:
+  - pip install virtualenv
+  - virtualenv --version
+  - python --version
+  - python3 --version
+  - python2 --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
