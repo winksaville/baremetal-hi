@@ -1,5 +1,9 @@
-language: c, python3
+language: c, python
 sudo: required
+
+python:
+  - "2.7"
+  - "3.5"
 
 env:
   global:
@@ -11,11 +15,14 @@ addons:
   apt:
     packages:
       - re2c
+      - dtc
 
 before_install:
   - sudo pip install virtualenv
   - virtualenv --version
   - python --version
+  - python2 --version
+  - python3 --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
