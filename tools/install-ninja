@@ -8,7 +8,6 @@ VER=1.6.0
 if [[ `$1/ninja -version` == *"${VER}"* ]]; then
   echo "ninja ${VER} is available";
 else
-if [ ! -d "$1" ]; then
   mkdir -p $1
   git clone https://github.com/martine/ninja.git $1
   cd $1
