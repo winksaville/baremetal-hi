@@ -15,22 +15,27 @@ addons:
   apt:
     packages:
       - re2c
-      - dtc
+      - python3
+        #- python3-venv
+        #- virtualenv
+        #- qemu
+        #- qemu-system-arm
+        #- dtc
 
 before_install:
-  - sudo pip install virtualenv
+  #- sudo pip install virtualenv
   - virtualenv --version
   - python --version
   - python2 --version
-  - python3 --version
+  #- python3 --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
   - tools/install-ninja ${DIR}
   - export PATH=${DIR}:$PATH
-  - DIR="${FOSS_DIR}/qemu"
-  - tools/install-qemu ${DIR}
-  - export PATH=${DIR}/build/arm-softmmu:$PATH
+  #- DIR="${FOSS_DIR}/qemu"
+  #- tools/install-qemu ${DIR}
+  #- export PATH=${DIR}/build/arm-softmmu:$PATH
 
 cache:
   directories:
@@ -38,6 +43,6 @@ cache:
 
 script:
   - ninja --version
-  - qemu-system-arm --version
+    #- qemu-system-arm --version
   - make ${Platform}
   - make run-${Platform}
