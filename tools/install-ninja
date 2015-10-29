@@ -5,7 +5,7 @@ set -e
 VER=1.6.0
 
 # Test if we've got the desired version
-if [[ `$1/ninja -version` == *"${VER}"* ]]; then
+if [[ `$1/ninja --version` == *"${VER}"* ]]; then
   echo "ninja ${VER} is available";
 else
   mkdir -p $1
