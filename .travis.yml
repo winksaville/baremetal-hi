@@ -22,7 +22,8 @@ before_install:
   - python2 --version
   - python3 --version
   - virtualenv --version
-  - qemu-system-arm --version
+  - qemu --version
+    #- qemu-system-arm --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
