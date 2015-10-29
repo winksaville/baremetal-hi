@@ -15,15 +15,13 @@ addons:
     packages:
       - re2c # Needed by ninja
       - qemu
-      - qemu-system-arm
+        #- qemu-system-arm
 
 before_install:
   - python --version
   - python2 --version
   - python3 --version
   - virtualenv --version
-    #- qemu --version
-    #- qemu-system-arm --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
