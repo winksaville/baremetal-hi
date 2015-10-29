@@ -1,4 +1,5 @@
 language: c, python3, python2
+sudo: required
 
 env:
   global:
@@ -13,7 +14,7 @@ addons:
       - pip
 
 before_install:
-  - pip install virtualenv
+  - sudo pip install virtualenv
   - virtualenv --version
   - python --version
   - python3 --version
