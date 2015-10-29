@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -ex
+VER=v2.4.0.1
+if [ ! -d "$1" ]; then
+  mkdir -p $1
+  git clone git://git.qemu.org/qemu.git $1
+  cd $1
+  git checkout ${VER}
+  mkdir build
+  cd build
+  virtualenv2 venv
+  . venv/bin/activate
+  ../configure --target-list=arm-softmmu,arm-linux-user
+  make
+fi

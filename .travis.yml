@@ -10,12 +10,16 @@ addons:
   apt:
     packages:
       - re2c
-      - qemu-system-arm
+      - virtualenv
+      - virtualenv2
 
 install:
   - DIR="${FOSS_DIR}/ninja"
   - tools/install-ninja ${DIR}
   - export PATH=${DIR}:$PATH
+  - DIR="${FOSS_DIR}/qemu"
+  - tools/install-qemu ${DIR}
+  - export PATH=${DIR}/build/arm-softmmu:$PATH
 
 cache:
   directories:
@@ -23,5 +27,6 @@ cache:
 
 script:
   - ninja --version
+  - qemu-system-arm --version
   - make ${Platform}
   - make run-${Platform}
