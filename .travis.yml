@@ -16,8 +16,8 @@ addons:
     packages:
       - re2c
       - python3
+      - python3-venv
         #- virtualenv
-        #- python3-venv
         #- qemu
         #- qemu-system-arm
         #- dtc
