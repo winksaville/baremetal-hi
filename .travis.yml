@@ -14,8 +14,8 @@ addons:
   apt:
     packages:
       - re2c
-      - python2.7
-      - python3.5
+        #- python2.7
+        #- python3.5
         #- python3.5-venv
         #- virtualenv
         #- qemu
