@@ -13,14 +13,11 @@ env:
 addons:
   apt:
     packages:
-      - re2c
-      - python3.5-venv
-        #- qemu
-      - qemu-system-arm
-        #- dtc
+      - re2c # Needed by ninja
+      - qemu
+        #- qemu-system-arm
 
 before_install:
-  #- sudo pip install virtualenv
   - python --version
   - python2 --version
   - python3 --version
