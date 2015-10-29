@@ -14,7 +14,7 @@ addons:
   apt:
     packages:
       - re2c # Needed by ninja
-      - qemu
+        #- qemu
         #- qemu-system-arm
 
 before_install:
@@ -36,8 +36,8 @@ cache:
     - ${FOSS_DIR}
 
 script:
-  - qemu -version
-    #- qemu-system-arm --version
+  #- qemu -version
+  #- qemu-system-arm --version
   - ninja --version
   - make ${Platform}
   - make run-${Platform}
