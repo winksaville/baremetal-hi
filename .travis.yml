@@ -10,6 +10,7 @@ addons:
   apt:
     packages:
       - re2c
+      - qemu-system-arm
 
 install:
   - DIR="${FOSS_DIR}/ninja"
