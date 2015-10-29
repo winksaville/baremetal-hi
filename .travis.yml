@@ -15,9 +15,8 @@ addons:
     packages:
       - re2c
       - python3.5-venv
-        #- virtualenv
         #- qemu
-        #- qemu-system-arm
+      - qemu-system-arm
         #- dtc
 
 before_install:
@@ -26,6 +25,7 @@ before_install:
   - python2 --version
   - python3 --version
   - virtualenv --version
+  - qemu-system-arm --version
 
 install:
   - DIR="${FOSS_DIR}/ninja"
