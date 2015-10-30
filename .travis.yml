@@ -6,13 +6,16 @@ python:
 
 env:
   global:
-    - FOSS_DIR=~/foss
+    - INSTALL_DIR=$HOME/opt
+    - CACHE_DIR=$HOME/cached
+    - TMP_DIR=$HOME/tmp
   matrix:
     - Platform=Posix
 
 cache:
   directories:
-    - ${FOSS_DIR}
+    - ${INSTALL_DIR}
+    - ${CACHED_DIR}
 
 addons:
   apt:
@@ -21,16 +24,15 @@ addons:
         #- qemu-system-arm  # Doesn't install!!
 
 before_install:
+  - export PATH=${INSTALL_DIR}/bin:$PATH
   - python --version
   - python2 --version
   - python3 --version
   - virtualenv --version
 
 install:
-  - DIR="${FOSS_DIR}/ninja"
-  - tools/install-ninja ${DIR}
-  - export PATH=${DIR}:$PATH
-  - DIR="${FOSS_DIR}/qemu"
+  - tools/install-ninja.py tmp_dir=${TMP_DIR} cache_dir={CACHE_DIR} install_dir=${INSTALL_DIR}
+  - DIR="${TMP_DIR}/qemu"
   - tools/install-qemu ${DIR}
   - export PATH=${DIR}/build/arm-softmmu:$PATH
 
