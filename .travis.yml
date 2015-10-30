@@ -31,7 +31,7 @@ before_install:
   - virtualenv --version
 
 install:
-  - tools/install-ninja.py tmp_dir=${TMP_DIR} cache_dir={CACHE_DIR} install_dir=${INSTALL_DIR}
+  - tools/install-ninja.py tmp_dir=${TMP_DIR} install_dir=${INSTALL_DIR}
   - DIR="${TMP_DIR}/qemu"
   - tools/install-qemu ${DIR}
   - export PATH=${DIR}/build/arm-softmmu:$PATH
