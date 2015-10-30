@@ -36,9 +36,9 @@ if __name__ == '__main__':
     try:
         output = subprocess.check_output([dst, '--version'])
         if output is None:
-            output = ''
+            output = b''
     except BaseException as err:
-        output = ''
+        output = b''
 
     if bytes(args.ver, 'utf-8') in output:
         print('ninja {} is already installed'.format(VER))
