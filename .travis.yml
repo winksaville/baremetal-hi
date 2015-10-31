@@ -1,3 +1,17 @@
+# Copyright 2015 wink saville
+#
+# licensed under the apache license, version 2.0 (the "license");
+# you may not use this file except in compliance with the license.
+# you may obtain a copy of the license at
+#
+#     http://www.apache.org/licenses/license-2.0
+#
+# unless required by applicable law or agreed to in writing, software
+# distributed under the license is distributed on an "as is" basis,
+# without warranties or conditions of any kind, either express or implied.
+# see the license for the specific language governing permissions and
+# limitations under the license.
+
 language: python
 sudo: false
 
@@ -8,7 +22,7 @@ env:
   global:
     - INSTALL_DIR=$HOME/opt
     - CACHE_DIR=$HOME/cached
-    - TMP_DIR=$HOME/tmp
+    - SRC_DIR=$HOME/tmp
   matrix:
     - Platform=Posix
 
@@ -31,8 +45,8 @@ before_install:
   - virtualenv --version
 
 install:
-  - tools/ninja-install.py --tmp ${TMP_DIR} --prefix ${INSTALL_DIR}
-  - tools/qemu-install.py --tmp ${TMP_DIR} --prefix ${INSTALL_DIR}
+  - tools/ninja-install.py --src ${SRC_DIR} --prefix ${INSTALL_DIR}
+  - tools/qemu-install.py --src ${SRC_DIR} --prefix ${INSTALL_DIR}
 
 before_script:
   - ninja --version

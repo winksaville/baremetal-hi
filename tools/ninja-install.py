@@ -14,24 +14,24 @@
 # see the license for the specific language governing permissions and
 # limitations under the license.
 
-import argparse
+import utils
+import installargs
+
 import subprocess
 import sys
 import os
 import shutil
 
 VER='1.6.0'
+APP='ninja'
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--tmp', help='Temporary for source, default="."', nargs='?', default=os.path.abspath('.'));
-    parser.add_argument('--prefix', help='Prefix for bin/', nargs='?', default=os.path.abspath(os.environ['HOME'] + '/opt/'))
-    parser.add_argument('--ver', help='version to install', nargs='?', default=VER);
-    args = parser.parse_args()
 
-    dst_dir = os.path.abspath(args.prefix + '/bin')
+    args = installargs.InstallArgs(APP, VER)
+
+    dst_dir = os.path.abspath(args.o.prefix + '/bin')
     os.makedirs(dst_dir, exist_ok=True)
-    dst = os.path.abspath(dst_dir + '/ninja')
+    dst = os.path.abspath(dst_dir + '/{app}'.format(app=APP))
 
     try:
         output = subprocess.check_output([dst, '--version'])
@@ -40,34 +40,30 @@ if __name__ == '__main__':
     except BaseException as err:
         output = b''
 
-    if bytes(args.ver, 'utf-8') in output:
-        print('ninja {} is already installed'.format(VER))
+    if bytes(args.o.ver, 'utf-8') in output:
+        print('{app} {ver} is already installed'.format(app=APP, ver=VER))
         exit(0)
     else:
-        print('compiling ninja {}', VER)
+        print('compiling {app} {ver}'.format(app=APP, ver=VER))
         url = 'https://github.com/martine/ninja.git'
-        os.makedirs(args.tmp, exist_ok=True)
-        os.chdir(args.tmp)
+        os.makedirs(args.o.src, exist_ok=True)
 
-        try:
-            subprocess.check_call(['git', 'clone', url, '.'])
-        except:
-            print('Unable to git clone ninja', url)
-            exit(1)
+        utils.git('clone', [url, args.o.src])
+        os.chdir(args.o.src)
 
         try:
             subprocess.check_call(['./configure.py', '--bootstrap'])
         except:
-            print('Unable to compile ninja')
+            print('Unable to compile {}'.format(APP))
             exit(1)
 
-        dst = os.path.abspath(args.prefix + '/bin')
+        dst = os.path.abspath(args.o.prefix + '/bin')
         os.makedirs(dst, exist_ok=True)
-        dst = os.path.abspath(dst + '/ninja')
+        dst = os.path.abspath(dst + '/{app}'.format(app=APP))
         try:
-            shutil.copy2('./ninja', dst)
+            shutil.copy2('./{app}'.format(app=APP), dst)
         except OSError as err:
-            print('Unable to copy ninja to', dst)
+            print('Unable to copy {app} to'.format(app=APP), dst)
             print('Error:', err);
             exit(1)
         exit(0)

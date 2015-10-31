@@ -3,4 +3,5 @@
 *.elf
 *.swp
 build*/
+__pycache__
 test
