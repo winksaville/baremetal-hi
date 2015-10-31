@@ -45,8 +45,8 @@ before_install:
   - virtualenv --version
 
 install:
-  - tools/ninja-install.py --src ${SRC_DIR} --prefix ${INSTALL_DIR}
-  - tools/qemu-install.py --src ${SRC_DIR} --prefix ${INSTALL_DIR}
+  - tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
+  - tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
 
 before_script:
   - ninja --version
