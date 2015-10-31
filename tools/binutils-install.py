@@ -69,7 +69,7 @@ if __name__ == '__main__':
         print('configure')
         utils.bash('../configure --prefix={0} --target={1} --disable-nls'
                 .format(args.o.prefix, TARGET))
-        utils.bash('make all -j {}'.format(multiprocessing.cpu_count()))
+        utils.bash('make all -j {}'.format(1))
         utils.bash('make install')
 
         exit(0)
