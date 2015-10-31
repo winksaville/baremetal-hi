@@ -39,6 +39,7 @@ addons:
 
 before_install:
   - export PATH=${INSTALL_DIR}/bin:$PATH
+  - export PATH=${INSTALL_DIR}/cross/bin:$PATH
   - python --version
   - python2 --version
   - python3 --version
