@@ -24,11 +24,11 @@ import multiprocessing
 
 VER='2.4.0.1'
 APP='qemu-system-arm'
-
+PREFIX='opt'
 
 if __name__ == '__main__':
 
-    args = installargs.InstallArgs(APP, VER)
+    args = installargs.InstallArgs(APP, VER, PREFIX)
 
     dst_dir = os.path.abspath(args.o.prefix)
     os.makedirs(dst_dir, exist_ok=True)

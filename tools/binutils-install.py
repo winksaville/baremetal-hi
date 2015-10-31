@@ -16,23 +16,28 @@
 
 import utils
 import installargs
-
 import subprocess
 import sys
 import os
 import shutil
+import multiprocessing
 
-VER='1.6.0'
-APP='ninja'
-PREFIX='opt'
+VER='2.25.1'
+APP='binutils-gdb'
+PREFIX='opt/cross'
+AN_APP='ld'
+TARGET='arm-eabi'
+TARGET_DASH='-'
+
 
 if __name__ == '__main__':
 
     args = installargs.InstallArgs(APP, VER, PREFIX)
 
-    dst_dir = os.path.abspath(args.o.prefix + '/bin')
+    dst_dir = os.path.abspath(args.o.prefix)
     os.makedirs(dst_dir, exist_ok=True)
-    dst = os.path.abspath(dst_dir + '/{app}'.format(app=APP))
+    dst = os.path.abspath(dst_dir + '/bin/{target}{target_dash}{an_app}'
+            .format(target=TARGET, target_dash=TARGET_DASH, an_app=AN_APP))
 
     try:
         output = subprocess.check_output([dst, '--version'])
@@ -46,25 +51,25 @@ if __name__ == '__main__':
         exit(0)
     else:
         print('compiling {app} {ver}'.format(app=APP, ver=VER))
-        url = 'https://github.com/martine/ninja.git'
         os.makedirs(args.o.src, exist_ok=True)
 
-        utils.git('clone', [url, args.o.src])
-        os.chdir(args.o.src)
-
         try:
-            subprocess.check_call(['./configure.py', '--bootstrap'])
-        except:
-            print('Unable to compile {}'.format(APP))
+            url = 'git://sourceware.org/git/binutils-gdb.git'
+            utils.git('clone', [url, args.o.src])
+            os.chdir(args.o.src)
+            version = VER.replace('.','_')
+            utils.git('checkout', ['binutils-{ver}'.format(ver=version)])
+            os.mkdir('build')
+            os.chdir('build')
+        except BaseException as ex:
+            print(sys.exc_info()[0])
+            print('Unable to get {app} Exception: {ex}'.format(app=APP, ex=ex))
             exit(1)
 
-        dst = os.path.abspath(args.o.prefix + '/bin')
-        os.makedirs(dst, exist_ok=True)
-        dst = os.path.abspath(dst + '/{app}'.format(app=APP))
-        try:
-            shutil.copy2('./{app}'.format(app=APP), dst)
-        except OSError as err:
-            print('Unable to copy {app} to'.format(app=APP), dst)
-            print('Error:', err);
-            exit(1)
+        print('configure')
+        utils.bash('../configure --prefix={0} --target={1} --disable-nls'
+                .format(args.o.prefix, TARGET))
+        utils.bash('make all -j {}'.format(multiprocessing.cpu_count()))
+        utils.bash('make install')
+
         exit(0)
