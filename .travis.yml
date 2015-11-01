@@ -28,8 +28,8 @@ env:
 
 cache:
   directories:
-    - ${INSTALL_DIR}
-    - ${CACHED_DIR}
+    #- ${INSTALL_DIR}
+    #- ${CACHED_DIR}
 
 addons:
   apt:
@@ -39,21 +39,25 @@ addons:
         #- qemu-system-arm  # Doesn't install!!
 
 before_install:
+  - mkdir ${INSTALL_DIR}/bin
+  - mkdir ${INSTALL_DIR}/cross/bin
   - export PATH=${INSTALL_DIR}/bin:$PATH
   - export PATH=${INSTALL_DIR}/cross/bin:$PATH
+  - wget 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' ${INSTALL_DIR}/ninja.tgz
+  - tar -xzf ${INSTALL_DIR}/ninja.tgz -O > ${INSTALL_DIR}/ninja
+
+install:
+  #- tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
+  #- tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
+  #- tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
+
+before_script:
   - python --version
   - python2 --version
   - python3 --version
   - virtualenv --version
-
-install:
-  - tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
-  - tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
-  - tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
-
-before_script:
   - ninja --version
-  - qemu-system-arm --version
+    #- qemu-system-arm --version
 
 script:
   - make ${Platform}
