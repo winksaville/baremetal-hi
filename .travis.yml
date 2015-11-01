@@ -39,8 +39,8 @@ addons:
         #- qemu-system-arm  # Doesn't install!!
 
 before_install:
-  - mkdir ${INSTALL_DIR}/bin
-  - mkdir ${INSTALL_DIR}/cross/bin
+  - mkdir -p ${INSTALL_DIR}/bin
+  - mkdir -p ${INSTALL_DIR}/cross/bin
   - export PATH=${INSTALL_DIR}/bin:$PATH
   - export PATH=${INSTALL_DIR}/cross/bin:$PATH
   - wget 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' ${INSTALL_DIR}/ninja.tgz
