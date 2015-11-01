@@ -21,6 +21,7 @@ python:
 env:
   global:
     - INSTALL_DIR=$HOME/opt
+    - BIN_DIR=${INSTALL_DIR}/bin
     - CACHE_DIR=$HOME/cached
     - SRC_DIR=$HOME/tmp
   matrix:
@@ -39,14 +40,14 @@ addons:
         #- qemu-system-arm  # Doesn't install!!
 
 before_install:
-  - mkdir -p ${INSTALL_DIR}/bin
-  - mkdir -p ${INSTALL_DIR}/cross/bin
-  - export PATH=${INSTALL_DIR}/bin:$PATH
-  - export PATH=${INSTALL_DIR}/cross/bin:$PATH
+  - mkdir -p ${BIN_DIR}
+  - mkdir -p ${CROSS_BIN_DIR}
+  - export PATH=${BIN_DIR}:$PATH
+  - export PATH=${CROSS_BIN_DIR}:$PATH
 
 install:
-  - wget -A '*.tgz' 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' ${INSTALL_DIR}/bin/ninja.tgz
-  - tar -xzf ${INSTALL_DIR}/bin/ninja.tgz -O > ${INSTALL_DIR}/bin/ninja
+  - wget 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' -O ${BIN_DIR}/ninja.tgz
+  - tar -xzf ${BIN_DIR}/ninja.tgz -O > ${BIN_DIR}/ninja
   #- tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
   #- tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
   #- tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
