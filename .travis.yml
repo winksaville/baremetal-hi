@@ -22,6 +22,7 @@ env:
   global:
     - INSTALL_DIR=$HOME/opt
     - BIN_DIR=${INSTALL_DIR}/bin
+    - CROSS_BIN_DIR=${INSTALL_DIR}/cross/bin
     - CACHE_DIR=$HOME/cached
     - SRC_DIR=$HOME/tmp
   matrix:
