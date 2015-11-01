@@ -45,7 +45,7 @@ before_install:
   - export PATH=${INSTALL_DIR}/cross/bin:$PATH
 
 install:
-  - wget -A.tgz 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' ${INSTALL_DIR}/bin/ninja.tgz
+  - wget -A '*.tgz' 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' ${INSTALL_DIR}/bin/ninja.tgz
   - tar -xzf ${INSTALL_DIR}/bin/ninja.tgz -O > ${INSTALL_DIR}/bin/ninja
   #- tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
   #- tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
