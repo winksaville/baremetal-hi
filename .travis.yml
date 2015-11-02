@@ -47,21 +47,21 @@ before_install:
   - export PATH=${CROSS_BIN_DIR}:$PATH
 
 install:
-  - wget 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' -O ${BIN_DIR}/ninja.tgz
-  - tar -xzf ${BIN_DIR}/ninja.tgz -O > ${BIN_DIR}/ninja
-  - ls -al ${BIN_DIR}
-  - chmod a+x ${BIN_DIR}/ninja
-  - ls -al ${BIN_DIR}
+  #- wget 'https://docs.google.com/uc?export=download&id=0B-KTY7zi7eZHWFJxNzFBNkkxS0U' -O ${BIN_DIR}/ninja.tgz
+  #- tar -xzf ${BIN_DIR}/ninja.tgz -O > ${BIN_DIR}/ninja
+  #- ls -al ${BIN_DIR}
+  #- chmod a+x ${BIN_DIR}/ninja
+  #- ls -al ${BIN_DIR}
   #- tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
   #- tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
-  #- tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
+  - tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
 
 before_script:
   - python --version
   - python2 --version
   - python3 --version
   - virtualenv --version
-  - ninja --version
+    #- ninja --version
     #- qemu-system-arm --version
 
 script:
