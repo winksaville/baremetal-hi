@@ -36,7 +36,7 @@ cache:
 addons:
   apt:
     packages:
-      - textinfo
+      - texinfo
       - re2c # Needed by ninja
         #- qemu-system-arm  # Doesn't install!!
 
