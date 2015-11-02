@@ -30,8 +30,8 @@ env:
 
 cache:
   directories:
-    #- ${INSTALL_DIR}
-    #- ${CACHED_DIR}
+    - ${INSTALL_DIR}
+    - ${CACHED_DIR}
 
 addons:
   apt:
@@ -61,6 +61,8 @@ before_script:
   - python2 --version
   - python3 --version
   - virtualenv --version
+  - ls -al $(CROSS_BIN_DIR)
+  - arm-eabi-ld --version
     #- ninja --version
     #- qemu-system-arm --version
 
