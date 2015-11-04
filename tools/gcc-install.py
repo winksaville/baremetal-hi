@@ -107,7 +107,19 @@ if __name__ == '__main__':
                ' --enable-languages=c,c++' +
                ' --without-headers')
                 .format(args.o.prefix, TARGET, gmp=gmp_path, mpfr=mpfr_path, mpc=mpc_path))
-        utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
+        # Set stdout to DEVNULL so the travis log file doesn't grow beyond 4MB. locally
+        # the log file become 5.4MB and travis-ci aborts if its > 4MB.
+        try:
+            print('gcc-install: make all-gcc')
+            subprocess.run('make all-gcc -j {}'.format(multiprocessing.cpu_count()),
+                    shell=True,
+                    stdout=subprocess.DEVNULL)
+            print('gcc-install: make all-gcc DONE')
+        except:
+            traceback.print_exc()
+            exit(1)
+        #utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
+
         utils.bash('make install-gcc')
         utils.bash('make all-target-libgcc')
         utils.bash('make install-target-libgcc')
