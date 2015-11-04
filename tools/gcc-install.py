@@ -86,9 +86,9 @@ if __name__ == '__main__':
             traceback.print_exc()
             exit(1)
 
-        utils.bash('cd {} && ./configure'.format(gmp_path))
-        utils.bash('cd {} && ./configure'.format(mpfr_path))
-        utils.bash('cd {} && ./configure'.format(mpc_path))
+        utils.bash('cd {0} && ./configure'.format(gmp_path))
+        utils.bash('cd {0} && ./configure --with-gmp={gmp} --with-gmp-include={gmp}'.format(mpfr_path, gmp=gmp_path))
+        utils.bash('cd {0} && ./configure --with-gmp={gmp} --with-gmp-include={gmp}'.format(mpc_path, gmp=gmp_path))
         utils.bash('ls -al {}'.format(os.path.dirname(args.o.src)))
         print('gcc-install: configure')
         utils.bash(('../configure --prefix={0} --target={1}' +
