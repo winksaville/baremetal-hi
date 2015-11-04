@@ -25,8 +25,8 @@ import multiprocessing
 
 VER='5.2.0'
 CHECKOUT_LABEL='gcc_{}_release'.format(VER.replace('.','_'))
-#GCC_GIT_REPO_URL = 'https://github.com/gcc-mirror/gcc.git'
-GCC_GIT_REPO_URL = 'https://github.com/winksaville/gcc-5.2.0.git'
+GCC_GIT_REPO_URL = 'https://github.com/gcc-mirror/gcc.git'
+#GCC_GIT_REPO_URL = 'https://github.com/winksaville/gcc-5.2.0.git' # My debug version
 GCC_URL = 'http://ftp.gnu.org/gnu/gcc/gcc-{0}/gcc-{0}.tar.bz2'
 GMP_URL = 'https://gmplib.org/download/gmp/gmp-6.0.0a.tar.xz'
 MPFR_URL = 'http://www.mpfr.org/mpfr-current/mpfr-3.1.3.tar.xz'
@@ -75,54 +75,51 @@ if __name__ == '__main__':
             utils.wget_extract(GMP_URL, dst_path=gmp_path)
             utils.wget_extract(MPFR_URL, dst_path=mpfr_path)
             utils.wget_extract(MPC_URL, dst_path=mpc_path)
-            #utils.wget_extract(GCC_URL.format(args.o.ver), dst_path=args.o.src)
-            os.makedirs(args.o.src, exist_ok=True)
-            utils.git('clone', [GCC_GIT_REPO_URL, args.o.src])
-            os.chdir(args.o.src)
-            #utils.git('checkout', [CHECKOUT_LABEL])
+            if True:
+                # Use wget as its faster
+                utils.wget_extract(GCC_URL.format(args.o.ver), dst_path=args.o.src)
+                os.chdir(args.o.src)
+            else:
+                # Use git, but this was slower
+                os.makedirs(args.o.src, exist_ok=True)
+                utils.git('clone', [GCC_GIT_REPO_URL, args.o.src])
+                os.chdir(args.o.src)
+                utils.git('checkout', [CHECKOUT_LABEL])
+
+            # Create the build directory and cd into it
             os.mkdir('build')
             os.chdir('build')
         except BaseException as ex:
             traceback.print_exc()
             exit(1)
 
-        #Seeing if installing the gmp, mpfr and mpc packages workes
-        #utils.bash('cd {0} && ./configure'.format(gmp_path))
-        #utils.bash(('cd {0} && ./configure' +
-        #            ' --with-gmp-include={gmp}' +
-        #            ' --with-gmp-lib={gmp} && make').format(mpfr_path, gmp=gmp_path))
-        #utils.bash(('cd {0} && ./configure' +
-        #            ' --with-gmp-include={gmp}' +
-        #            ' --with-gmp-lib={gmp} && make').format(mpc_path, gmp=gmp_path))
-        utils.bash('ls -al {}'.format(os.path.dirname(args.o.src)))
-        print('gcc-install: configure')
-        utils.bash(('../configure --prefix={0} --target={1}' +
-               ' --with-gmp={gmp}' +
-               ' --with-gmp-include={gmp}' +
-               ' --with-mpfr={mpfr}' +
-               ' --with-mpfr-include={mpfr}/src' +
-               ' --with-mpc={mpc}' +
-               ' --with-mpc-include={mpc}/src' +
-               ' --disable-nls ' +
-               ' --enable-languages=c,c++' +
-               ' --without-headers')
-                .format(args.o.prefix, TARGET, gmp=gmp_path, mpfr=mpfr_path, mpc=mpc_path))
-        # Set stdout to DEVNULL so the travis log file doesn't grow beyond 4MB. locally
-        # the log file become 5.4MB and travis-ci aborts if its > 4MB.
+        # ls the directory with gcc, gmp, mpfr and mpc for debug purposes
+        #utils.bash('ls -al {}'.format(os.path.dirname(args.o.src)))
+
         try:
+            print('gcc-install: configure')
+            subprocess.run(('../configure --prefix={0} --target={1}' +
+                   ' --with-gmp={gmp}' +
+                   ' --with-gmp-include={gmp}' +
+                   ' --with-mpfr={mpfr}' +
+                   ' --with-mpfr-include={mpfr}/src' +
+                   ' --with-mpc={mpc}' +
+                   ' --with-mpc-include={mpc}/src' +
+                   ' --disable-nls ' +
+                   ' --enable-languages=c,c++' +
+                   ' --without-headers')
+                    .format(args.o.prefix, TARGET, gmp=gmp_path, mpfr=mpfr_path, mpc=mpc_path),
+                   shell=True)
             print('gcc-install: make all-gcc')
-            #utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
             subprocess.run('make all-gcc -j {}'.format(multiprocessing.cpu_count()),
                     shell=True,
-                    stdout=subprocess.DEVNULL)
+                    stdout=subprocess.DEVNULL) # Too much logging overflows 4MB travis-ci log limit
             print('gcc-install: make install-gcc')
-            #utils.bash('make install-gcc')
             subprocess.run('make install-gcc', shell=True)
             print('gcc-install: make all-target-libgcc')
-            #utils.bash('make all-target-libgcc')
             subprocess.run('make all-target-libgcc -j {}'.format(multiprocessing.cpu_count()),
                     shell=True,
-                    stdout=subprocess.DEVNULL)
+                    stdout=subprocess.DEVNULL) # Too much logging overflows 4MB travis-ci log limit
             print('gcc-install: make install-target-libgcc')
             #utils.bash('make install-target-libgcc')
             subprocess.run('make install-target-libgcc', shell=True)
