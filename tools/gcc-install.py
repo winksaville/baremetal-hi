@@ -45,6 +45,10 @@ if __name__ == '__main__':
     os.makedirs(dst_dir, exist_ok=True)
     dst = os.path.abspath(dst_dir + '/bin/{target}{target_dash}{an_app}'
             .format(target=TARGET, target_dash=TARGET_DASH, an_app=AN_APP))
+    print('gcc-install: dst=', dst)
+    print('gcc-install: args.o.src=', args.o.src)
+    print('gcc-install: args.o.ver=', args.o.ver)
+    print('gcc-install: args.o.prefix=', args.o.prefix)
 
     try:
         output = subprocess.check_output([dst, '--version'])
@@ -54,14 +58,17 @@ if __name__ == '__main__':
         output = b''
 
     if False: #bytes(args.o.ver, 'utf-8') in output:
-        print('{app} {ver} is already installed'.format(app=APP, ver=args.o.ver))
+        print('gcc-install: {app} {ver} is already installed'.format(app=APP, ver=args.o.ver))
         exit(0)
     else:
-        print('compiling {app} {ver}'.format(app=APP, ver=args.o.ver))
+        print('gcc-install:  compiling {app} {ver}'.format(app=APP, ver=args.o.ver))
 
         gmp_path = os.path.join(os.path.dirname(args.o.src), 'gmp')
+        print('gcc-install: gmp_path=', gmp_path)
         mpfr_path = os.path.join(os.path.dirname(args.o.src), 'mpfr')
+        print('gcc-install: mpfr_path=', mpfr_path)
         mpc_path = os.path.join(os.path.dirname(args.o.src), 'mpc')
+        print('gcc-install: mpc_path=', mpc_path)
 
         try:
             utils.wget_extract(GMP_URL, dst_path=gmp_path)
@@ -78,14 +85,15 @@ if __name__ == '__main__':
             traceback.print_exc()
             exit(1)
 
-        print('configure')
-        utils.bash('../configure --prefix={0} --target={1} \
-               --with-gmp={gmp} \
-               --with-mpfr={mpfr} \
-               --with-mpc={mpc} \
-               --disable-nls \
-               --enable-languages=c,c++ \
-               --without-headers'
+        utils.bash('ls -al {}'.format(os.path.dirname(args.o.src)))
+        print('gcc-install: configure')
+        utils.bash(('../configure --prefix={0} --target={1}' +
+               ' --with-gmp={gmp}' +
+               ' --with-mpfr={mpfr}' +
+               ' --with-mpc={mpc}' +
+               ' --disable-nls ' +
+               ' --enable-languages=c,c++' +
+               ' --without-headers')
                 .format(args.o.prefix, TARGET, gmp=gmp_path, mpfr=mpfr_path, mpc=mpc_path))
         utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
         utils.bash('make install-gcc')
