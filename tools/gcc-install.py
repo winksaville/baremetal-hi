@@ -115,9 +115,9 @@ if __name__ == '__main__':
             subprocess.run('make all-gcc -j {}'.format(multiprocessing.cpu_count()),
                     shell=True,
                     stdout=subprocess.DEVNULL)
-            print('gcc-install: make installgcc')
+            print('gcc-install: make install-gcc')
             #utils.bash('make install-gcc')
-            subprocess.run('make install-gcc')
+            subprocess.run('make install-gcc', shell=True)
             print('gcc-install: make all-target-libgcc')
             #utils.bash('make all-target-libgcc')
             subprocess.run('make all-target-libgcc -j {}'.format(multiprocessing.cpu_count()),
@@ -125,7 +125,7 @@ if __name__ == '__main__':
                     stdout=subprocess.DEVNULL)
             print('gcc-install: make install-target-libgcc')
             #utils.bash('make install-target-libgcc')
-            subprocess.run('make install-target-libgcc')
+            subprocess.run('make install-target-libgcc', shell=True)
         except:
             traceback.print_exc()
             exit(1)
