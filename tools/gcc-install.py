@@ -58,7 +58,7 @@ if __name__ == '__main__':
     except BaseException as err:
         output = b''
 
-    if False: #bytes(args.o.ver, 'utf-8') in output:
+    if bytes(args.o.ver, 'utf-8') in output:
         print('gcc-install: {app} {ver} is already installed'.format(app=APP, ver=args.o.ver))
         exit(0)
     else:
