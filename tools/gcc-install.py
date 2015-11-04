@@ -111,17 +111,23 @@ if __name__ == '__main__':
         # the log file become 5.4MB and travis-ci aborts if its > 4MB.
         try:
             print('gcc-install: make all-gcc')
+            #utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
             subprocess.run('make all-gcc -j {}'.format(multiprocessing.cpu_count()),
                     shell=True,
                     stdout=subprocess.DEVNULL)
-            print('gcc-install: make all-gcc DONE')
+            print('gcc-install: make installgcc')
+            #utils.bash('make install-gcc')
+            subprocess.run('make install-gcc')
+            print('gcc-install: make all-target-libgcc')
+            #utils.bash('make all-target-libgcc')
+            subprocess.run('make all-target-libgcc -j {}'.format(multiprocessing.cpu_count()),
+                    shell=True,
+                    stdout=subprocess.DEVNULL)
+            print('gcc-install: make install-target-libgcc')
+            #utils.bash('make install-target-libgcc')
+            subprocess.run('make install-target-libgcc')
         except:
             traceback.print_exc()
             exit(1)
-        #utils.bash('make all-gcc -j {}'.format(multiprocessing.cpu_count()))
-
-        utils.bash('make install-gcc')
-        utils.bash('make all-target-libgcc')
-        utils.bash('make install-target-libgcc')
 
         exit(0)
