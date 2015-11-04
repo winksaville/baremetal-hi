@@ -36,7 +36,10 @@ cache:
 addons:
   apt:
     packages:
-      - texinfo
+      - texinfo # needed by binutils-gdb
+      - libgmp-dev # needed by gcc
+      - libmpfr-dev # needed by gcc
+      - libmpc-dev # needed by gcc
       - re2c # Needed by ninja
         #- qemu-system-arm  # Doesn't install!!
 
