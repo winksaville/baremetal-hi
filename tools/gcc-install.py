@@ -25,7 +25,8 @@ import multiprocessing
 
 VER='5.2.0'
 CHECKOUT_LABEL='gcc_{}_release'.format(VER.replace('.','_'))
-GCC_GIT_REPO_URL = 'https://github.com/gcc-mirror/gcc.git'
+#GCC_GIT_REPO_URL = 'https://github.com/gcc-mirror/gcc.git'
+GCC_GIT_REPO_URL = 'git@github.com:winksaville/gcc-5.2.0.git'
 GCC_URL = 'http://ftp.gnu.org/gnu/gcc/gcc-{0}/gcc-{0}.tar.bz2'
 GMP_URL = 'https://gmplib.org/download/gmp/gmp-6.0.0a.tar.xz'
 MPFR_URL = 'http://www.mpfr.org/mpfr-current/mpfr-3.1.3.tar.xz'
@@ -74,9 +75,9 @@ if __name__ == '__main__':
             utils.wget_extract(GMP_URL, dst_path=gmp_path)
             utils.wget_extract(MPFR_URL, dst_path=mpfr_path)
             utils.wget_extract(MPC_URL, dst_path=mpc_path)
-            utils.wget_extract(GCC_URL.format(args.o.ver), dst_path=args.o.src)
-            #os.makedirs(args.o.src, exist_ok=True)
-            #utils.git('clone', [GIT_REPO_URL, args.o.src])
+            #utils.wget_extract(GCC_URL.format(args.o.ver), dst_path=args.o.src)
+            os.makedirs(args.o.src, exist_ok=True)
+            utils.git('clone', [GCC_GIT_REPO_URL, args.o.src])
             os.chdir(args.o.src)
             #utils.git('checkout', [CHECKOUT_LABEL])
             os.mkdir('build')
@@ -85,12 +86,18 @@ if __name__ == '__main__':
             traceback.print_exc()
             exit(1)
 
+        utils.bash('cd {} && ./configure'.format(gmp_path))
+        utils.bash('cd {} && ./configure'.format(mpfr_path))
+        utils.bash('cd {} && ./configure'.format(mpc_path))
         utils.bash('ls -al {}'.format(os.path.dirname(args.o.src)))
         print('gcc-install: configure')
         utils.bash(('../configure --prefix={0} --target={1}' +
                ' --with-gmp={gmp}' +
+               ' --with-gmp-include={gmp}' +
                ' --with-mpfr={mpfr}' +
+               ' --with-mpfr-include={mpfr}/src' +
                ' --with-mpc={mpc}' +
+               ' --with-mpc-include={mpc}/src' +
                ' --disable-nls ' +
                ' --enable-languages=c,c++' +
                ' --without-headers')
