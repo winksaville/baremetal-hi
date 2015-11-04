@@ -19,6 +19,7 @@ import installargs
 import subprocess
 import sys
 import os
+import traceback
 import shutil
 import multiprocessing
 
@@ -47,10 +48,10 @@ if __name__ == '__main__':
         output = b''
 
     if bytes(args.o.ver, 'utf-8') in output:
-        print('{app} {ver} is already installed'.format(app=APP, ver=VER))
+        print('{app} {ver} is already installed'.format(app=args.o.src, ver=VER))
         exit(0)
     else:
-        print('compiling {app} {ver}'.format(app=APP, ver=VER))
+        print('compiling {app} {ver}'.format(app=args.o.src, ver=VER))
         os.makedirs(args.o.src, exist_ok=True)
 
         try:
@@ -62,8 +63,7 @@ if __name__ == '__main__':
             os.mkdir('build')
             os.chdir('build')
         except BaseException as ex:
-            print(sys.exc_info()[0])
-            print('Unable to get {app} Exception: {ex}'.format(app=APP, ex=ex))
+            traceback.print_exc()
             exit(1)
 
         print('configure')

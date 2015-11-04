@@ -55,6 +55,7 @@ install:
   - tools/ninja-install.py --src ${SRC_DIR}/ninja --prefix ${INSTALL_DIR}
   - tools/qemu-install.py --src ${SRC_DIR}/qemu --prefix ${INSTALL_DIR}
   - tools/binutils-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
+  - tools/gcc-install.py --src ${SRC_DIR}/binutils --prefix ${INSTALL_DIR}/cross
 
 before_script:
   - python --version
@@ -64,6 +65,7 @@ before_script:
   - arm-eabi-ld --version
   - ninja --version
   - qemu-system-arm --version
+  - arm-eabi-gcc --version
 
 script:
   - make ${Platform}

@@ -20,6 +20,7 @@ import installargs
 import subprocess
 import sys
 import os
+import traceback
 import shutil
 
 VER='1.6.0'
@@ -42,10 +43,10 @@ if __name__ == '__main__':
         output = b''
 
     if bytes(args.o.ver, 'utf-8') in output:
-        print('{app} {ver} is already installed'.format(app=APP, ver=VER))
+        print('{app} {ver} is already installed'.format(app=APP, ver=args.o.ver))
         exit(0)
     else:
-        print('compiling {app} {ver}'.format(app=APP, ver=VER))
+        print('compiling {app} {ver}'.format(app=APP, ver=args.o.ver))
         url = 'https://github.com/martine/ninja.git'
         os.makedirs(args.o.src, exist_ok=True)
 
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         try:
             subprocess.check_call(['./configure.py', '--bootstrap'])
         except:
-            print('Unable to compile {}'.format(APP))
+            traceback.print_exc()
             exit(1)
 
         dst = os.path.abspath(args.o.prefix + '/bin')
@@ -64,7 +65,6 @@ if __name__ == '__main__':
         try:
             shutil.copy2('./{app}'.format(app=APP), dst)
         except OSError as err:
-            print('Unable to copy {app} to'.format(app=APP), dst)
-            print('Error:', err);
+            traceback.print_exc()
             exit(1)
         exit(0)

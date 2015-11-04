@@ -3,5 +3,12 @@
 *.elf
 *.swp
 build*/
+gcc/
+gmp/
+mpc/
+mpfr/
+ninja/
+binutils-gdb/
+qemu-system-arm/
 __pycache__
 test
