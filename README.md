@@ -1,6 +1,4 @@
-# Baremetal Hi
-
-[![Build Status](https://travis-ci.org/winksaville/baremetal-hi.svg)](https://travis-ci.org/winksaville/baremetal-hi)
+# Baremetal Hi [![Build Status](https://travis-ci.org/winksaville/baremetal-hi.svg)](https://travis-ci.org/winksaville/baremetal-hi)
 
 A trivial baremetal test app that prints "Hi" to the Uart on the qemu Virtual
 Development board for ARM. For some build systems there are two targets. BmArm
