@@ -1,40 +1,59 @@
+# -*- mode: python; -*-
+#
 # craftr_module(baremetal_hi)
-load_module('compiler')
-load_module('platform')
 
-c = compiler.CCompiler()
+from craftr import *
+from craftr.ext import rules, unix, compiler
+import craftr.ext.compiler.gcc
 
-testObject = c.objects(
-  prog = 'arm-eabi-gcc',
-  sources = ['../test.c'],
+# Get the tools required to build the app.
+objcopy = unix.Objcopy(environ.get('OBJCOPY', 'objcopy'))
+gcc = compiler.gcc.Compiler(environ.get('CC', 'gcc'), 'c',
   defines = ['BmArm'],
-  additional_flags = ['-mcpu=arm926ej-s']
+  additional_flags = [
+    '-mcpu=arm926ej-s', '-nodefaultlibs', '-nostdlib',
+    '-nostartfiles', '-ffreestanding',
+  ],
 )
 
-startupObject = c.objects(
-  prog = 'arm-eabi-gcc',
-  sources = ['../startup.S'],
-  defines = ['RESET_ON_MAIN_COMPLETE', 'BmArm'],
-  additional_flags = ['-mcpu=arm926ej-s']
+# The GCC compiler implementation can be used for linking.
+ld = gcc
+
+# Pre-generated filenames.
+startup_obj = path.join(project_name, 'obj', 'startup.o')
+linker_script = path.join(project_name, 'link.ld')
+
+# Targets
+
+t_test = gcc.compile(
+  sources = [path.local('test.c')],
 )
 
-testelf = c.executable(
-  prog = 'arm-eabi-ld',
-  filename = 'test.elf',
-  inputs = [startupObject, testObject],
-  additional_flags = ['-T', '../link.craftr.ld']
+t_startup = gcc.compile(
+  outputs = [linker_script],
+  sources = [path.local('startup.S')],
+  defines = ['RESET_ON_MAIN_COMPLETE'],
+  language = None,
 )
 
-testbin = c.obj_copy(
-  prog = 'arm-eabi-objcopy',
-  filename = 'test.bin',
-  input = testelf,
-  additional_flags = ['-O', 'binary']
+t_linker_script = rules.render_template(
+  output = linker_script,
+  template = path.local('Craftr.link-template.ld'),
+  STARTUP_OBJ = startup_obj,
 )
 
-run = c.run_target(
-  prog = 'qemu-system-arm',
-  runname = 'run',
-  input = testbin,
-  additional_flags = ['-M', 'versatilepb', '-m', '128M', '-nographic', '-no-reboot', '-kernel']
+t_testelf = ld.link(
+  inputs = [t_test],
+  output = path.abspath('test.elf'),
+  linker_script = linker_script,
+) << [t_startup]
+
+t_testbin = objcopy.objcopy(
+  inputs = t_testelf,
+  output_format = 'binary',
+)
+
+run = rules.run(
+  'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-no-reboot', '-kernel', '$in',
+  inputs = t_testbin,
 )
