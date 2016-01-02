@@ -30,7 +30,6 @@ t_test = gcc.compile(
 )
 
 t_startup = gcc.compile(
-  outputs = [linker_script],
   sources = [path.local('startup.S')],
   defines = ['RESET_ON_MAIN_COMPLETE'],
   language = None,
@@ -54,6 +53,6 @@ t_testbin = objcopy.objcopy(
 )
 
 run = rules.run(
-  'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-no-reboot', '-kernel', '$in',
+  'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-no-reboot', '-kernel', '$in', '-nographic',
   inputs = t_testbin,
 )
