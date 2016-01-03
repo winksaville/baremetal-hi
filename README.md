@@ -5,8 +5,8 @@ Development board for ARM. For some build systems there are two targets. BmArm
 builds the arm image to be run on qemu and the Posix target. For BmArm the
 resulting runnable output is "test.bin" and can be tested by running with
 qemu-system-arm:
-```
-qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
+
+    qemu-system-arm -M versatilepb -m 128M -nographic -kernel test.bin
 
 Or with run-BmArm target.
 
@@ -40,83 +40,81 @@ install them on travis-ci.org for "testing":
 
 Don't hesitate to provide pull requests or fork this project to
 do your own exploration.
-___
+
 ## To use [GNU Make](https://www.gnu.org/software/make/):
-```
-mkdir build-makefile
-cd build-makefile
-make -f ../Makefile Posix
-```
+
+    mkdir build-makefile
+    cd build-makefile
+    make -f ../Makefile Posix
+
 To run posix app:
-```
-make run-Posix
-```
+
+    make run-Posix
+
+
 To build and run the arm version using qemu:
-```
-make run-BmArm
-```
+
+    make run-BmArm
+
 You can also split into two above steps "make BmArm && make run-BmArm"
-___
+
 ## To use [kati](https://github.com/google/kati)
+
 Kati is interesting in that it uses GNU Makefiles as its
 input source and internally generates ninja code.
-```
-mkdir build-kati
-cd build-kati
-kati -f ../Makefile Posix
-kati -f ../Makefile run-Posix
-```
+
+    mkdir build-kati
+    cd build-kati
+    kati -f ../Makefile Posix
+    kati -f ../Makefile run-Posix
+
 To have kati generate build.ninja and use ninja:
-```
-kati --ninja -f ../Makefile
-ninja run-Posix
-ninja run-BmArm
-```
-___
+
+    kati --ninja -f ../Makefile
+    ninja run-Posix
+    ninja run-BmArm
+
 ## To use [CMake](https://cmake.org/), based on [this](http://www.valvers.com/open-software/raspberry-pi/step03-bare-metal-programming-in-c-pt3/):
-```
-mkdir build-cmake-ninja
-cd build-cmake-ninja
-cmake -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
-ninja
-ninja run
-```
+
+    mkdir build-cmake-ninja
+    cd build-cmake-ninja
+    cmake -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
+    ninja
+    ninja run
+
 For unix Makefile you can use the run target which doesn't work for ninja
-```
-mkdir build-cmake-make
-cd build-cmake-make
-cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
-make
-make run
-```
-___
+
+    mkdir build-cmake-make
+    cd build-cmake-make
+    cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../toolchain-arm-eabi.cmake ..
+    make
+    make run
+
 ## To use [Meson](https://mesonbuild.com):
+
 The build.meson file supports two platforms, Posix and BmArm.
 The BmArm causes test.c to assume a Qemu VersatilePB platform.
 
 To build and run Posix platform:
-```
-mkdir build-meson-posix
-cd build-meson-posix
-meson -D Platform=Posix ..
-ninja
-ninja run
-```
+
+    mkdir build-meson-posix
+    cd build-meson-posix
+    meson -D Platform=Posix ..
+    ninja
+    ninja run
+
 To build and run for BmArm platform:
-```
-mkdir build-meson-bmarm
-cd build-meson-bmarm
-meson -D Platform=BmArm --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
-ninja
-ninja run
-```
-___
+
+    mkdir build-meson-bmarm
+    cd build-meson-bmarm
+    meson -D Platform=BmArm --cross-file ../arm-eabi-cross_file.txt --buildtype plain ..
+    ninja
+    ninja run
+
 ## To use [Craftr](https://github.com/craftr-build/craftr):
-I've hacked craftr and [my version](https://github.com/winksaville/craftr/tree/add-prog-obj_copy-run_target)
-must be used.
-```
-mkdir build-craftr
-cd build-craftr
-craftr -c .. export
-ninja
-```
+
+To build and emulate for arm-eabi:
+
+    mkdir build-craftr && cd build-craftr
+    craftr -ebp .. run
+
