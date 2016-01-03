@@ -3,12 +3,14 @@
 # craftr_module(baremetal_hi)
 
 from craftr import *
-from craftr.ext import rules, unix, compiler
-import craftr.ext.compiler.gcc
+from craftr.ext import rules
+from craftr.ext.compiler.gcc import GccCompiler
+from craftr.ext.unix import Objcopy
 
-# Get the tools required to build the app.
-objcopy = unix.Objcopy(environ.get('OBJCOPY', 'objcopy'))
-gcc = compiler.gcc.Compiler(environ.get('CC', 'gcc'), 'c',
+target = environ.get('TARGET', 'arm-eabi') + '-'
+objcopy = Objcopy(target + 'objcopy')
+gcc = ld = GccCompiler(target + 'gcc', language = None)
+gcc = gcc.fork(
   defines = ['BmArm'],
   additional_flags = [
     '-mcpu=arm926ej-s', '-nodefaultlibs', '-nostdlib',
@@ -16,43 +18,42 @@ gcc = compiler.gcc.Compiler(environ.get('CC', 'gcc'), 'c',
   ],
 )
 
-# The GCC compiler implementation can be used for linking.
-ld = gcc
 
-# Pre-generated filenames.
-startup_obj = path.join(project_name, 'obj', 'startup.o')
-linker_script = path.join(project_name, 'link.ld')
-
-# Targets
-
-t_test = gcc.compile(
-  sources = [path.local('test.c')],
+test = gcc.compile(
+  sources = path.local('test.c'),
 )
 
-t_startup = gcc.compile(
+startup = gcc.compile(
   sources = [path.local('startup.S')],
   defines = ['RESET_ON_MAIN_COMPLETE'],
-  language = None,
 )
 
-t_linker_script = rules.render_template(
-  output = linker_script,
+ld_script = rules.render_template(
+  # We can not know the path to the object file generated from
+  # startup.S until we created the target so we need to render
+  # the filename into the linker script.
+  output = 'link.ld',
   template = path.local('Craftr.link-template.ld'),
-  STARTUP_OBJ = startup_obj,
+
+  # Variables to replace:
+  STARTUP_OBJ = startup.outputs[0],
 )
 
-t_testelf = ld.link(
-  inputs = [t_test],
-  output = path.abspath('test.elf'),
-  linker_script = linker_script,
-) << [t_startup]
+test_elf = ld.link(
+  output = 'test.elf',
+  linker_script = ld_script.outputs[0],
+  # The object file generated from startup.S is listed in the
+  # linker script already, we must not pass it as an input here
+  # otherwise it would be used twice.
+  inputs = [test],
+)
 
-t_testbin = objcopy.objcopy(
-  inputs = t_testelf,
+test_bin = objcopy.objcopy(
+  inputs = [test_elf],
   output_format = 'binary',
 )
 
 run = rules.run(
   'qemu-system-arm', '-M', 'versatilepb', '-m', '128M', '-no-reboot', '-kernel', '$in', '-nographic',
-  inputs = t_testbin,
+  inputs = [test_bin],
 )
