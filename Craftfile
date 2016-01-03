@@ -6,6 +6,9 @@ from craftr import *
 from craftr.ext import rules
 from craftr.ext.compiler.gcc import GccCompiler
 from craftr.ext.unix import Objcopy
+from craftr.utils import prepend_path
+
+prepend_path(path.expanduser('~/opt/bin'))
 
 target = environ.get('TARGET', 'arm-eabi') + '-'
 objcopy = Objcopy(target + 'objcopy')
