@@ -44,7 +44,7 @@ startup.o: $(MFD)/startup.S
 	$(CC) $(cflags) -DRESET_ON_MAIN_COMPLETE -c -o $@ $^
 
 test.bin: test.BmArm.o startup.o $(MFD)/link.make.ld
-	$(LD) -T $(MFD)/link.make.ld test.$(Platform).o startup.o -o test.elf
+	$(LD) -T $(MFD)/link.make.ld startup.o test.$(Platform).o -o test.elf
 	$(OC) -O binary test.elf test.bin
 
 .PHONY: run-Posix
