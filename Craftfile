@@ -31,28 +31,17 @@ startup = gcc.compile(
   defines = ['RESET_ON_MAIN_COMPLETE'],
 )
 
-ld_script = rules.render_template(
-  # We can not know the path to the object file generated from
-  # startup.S until we created the target so we need to render
-  # the filename into the linker script.
-  output = 'link.ld',
-  template = path.local('Craftr.link-template.ld'),
-
-  # Variables to replace:
-  STARTUP_OBJ = startup.outputs[0],
-)
-
 test_elf = ld.link(
   output = 'test.elf',
-  linker_script = ld_script.outputs[0],
+  linker_script = path.local('link.craftr.ld'),
 
   # The object file generated from startup.S is listed in the
   # linker script already, we must not pass it as an input here
   # otherwise it would be used twice.
-  inputs = [test],
+  inputs = [startup, test],
 
   # That is why we add it only as an implicit dependency to the target.
-) << startup
+)
 
 
 test_bin = objcopy.objcopy(
