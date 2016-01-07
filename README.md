@@ -118,3 +118,10 @@ To build and emulate for arm-eabi:
     mkdir build-craftr && cd build-craftr
     craftr -ebp .. run
 
+
+You can also use the build.ninja directly (Also tab completion works for ninja):
+
+    craftr -ep ..
+    ninja -t clean
+    ninja baremetal_hi.run
+

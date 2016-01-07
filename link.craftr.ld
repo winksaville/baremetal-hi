@@ -2,7 +2,7 @@ ENTRY(_Reset)
 SECTIONS
 {
   . = 0x10000;
-  .startup  . : { *(.text) }
+  .startup  . : { *(.startup) }
   .text : { *(.text) }
   .data : { *(.data) }
   .bss : { *(.bss COMMON) }

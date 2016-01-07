@@ -34,13 +34,7 @@ startup = gcc.compile(
 test_elf = ld.link(
   output = 'test.elf',
   linker_script = path.local('link.craftr.ld'),
-
-  # The object file generated from startup.S is listed in the
-  # linker script already, we must not pass it as an input here
-  # otherwise it would be used twice.
-  inputs = [startup, test],
-
-  # That is why we add it only as an implicit dependency to the target.
+  inputs = [ test, startup],
 )
 
 

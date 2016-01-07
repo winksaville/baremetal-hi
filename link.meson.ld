@@ -5,7 +5,7 @@ SECTIONS
   . = 0x10000;
   /* TODO: fix meson naming scheme so there its something other
    * than testit@exe as the linker script doesn't like '@' */
-  .startup  . : { testit?exe/startup.S.o(.text) }
+  .startup  . : { testit?exe/startup.S.o(.startup) }
   .text : { *(.text) }
   .data : { *(.data) }
   .bss : { *(.bss COMMON) }

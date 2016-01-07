@@ -1,9 +1,9 @@
 [binaries]
-c = '/home/wink/opt/cross/bin/arm-eabi-gcc'
-cpp = '/home/wink/opt/cross/bin/arm-eabi-g++'
-ar = '/home/wink/opt/cross/bin/arm-eabi-ar'
-ld = '/home/wink/opt/cross/bin/arm-eabi-ld'
-strip = '/home/wink/opt/cross/bin/arm-eabi-strip'
+c = '/home/wink/opt/x-tools/arm-unknown-eabi/bin/arm-eabi-gcc'
+cpp = '/home/wink/opt/x-tools/arm-unknown-eabi/bin/arm-eabi-g++'
+ar = '/home/wink/opt/x-tools/arm-unknown-eabi/bin/arm-eabi-ar'
+ld = '/home/wink/opt/x-tools/arm-unknown-eabi/bin/arm-eabi-ld'
+strip = '/home/wink/opt/x-tools/arm-unknown-eabi/bin/arm-eabi-strip'
 
 [properties]
 has_function_printf = false
