@@ -28,10 +28,8 @@ Currently the set of build systems I'm interested in are:
 * [Ninja](https://martine.github.io/ninja/) needed by the others
 
 There are some prerequisites:
-* An arm-eabi cross compiler and change 'i586-elf' to 'arm-eabi'.
-cross-compilers and also add a gdb. I've created some python scripts
-to build some of the prerequisites. These tools are also used to
-install them on travis-ci.org for "testing":
+I've created some python scripts to build some of the prerequisites.
+These tools are also used to install them on travis-ci.org for "testing":
 * tools/ninja-install.py
 * tools/binutils-install.py
 * tools/qemu-install.py
